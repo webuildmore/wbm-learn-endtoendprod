@@ -1,0 +1,3467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ship Real — AI Production Guide</title>
+    <link rel="icon" type="image/webp" href="wbm - logo - white.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            font-size: 16px
+        }
+
+        body {
+            background: #09090b;
+            color: #fafafa;
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            padding: 60px 0
+        }
+
+        :root {
+            --bg: #09090b;
+            --s1: #111113;
+            --s2: #18181b;
+            --s3: #222225;
+            --b1: #27272a;
+            --b2: #3f3f46;
+            --t1: #fafafa;
+            --t2: #a1a1aa;
+            --t3: #52525b;
+            --a: #7c6af8;
+            --a2: rgba(124, 106, 248, .12);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--a);
+            outline-offset: 3px;
+            border-radius: 4px
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px
+        }
+
+        @media(max-width:600px) {
+            .container {
+                padding: 0 20px
+            }
+        }
+
+        /* ── SECTION HEADER ── */
+        .sec-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            font-weight: 500;
+            color: var(--t3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sec-label::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--b2);
+            flex-shrink: 0
+        }
+
+        .sec-h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 700;
+            letter-spacing: -.04em;
+            color: var(--t1);
+            margin-bottom: 6px;
+        }
+
+        .sec-h2 em {
+            font-style: normal;
+            color: var(--t2)
+        }
+
+        .sec-sub {
+            font-size: .9375rem;
+            color: var(--t2);
+            margin-bottom: 40px
+        }
+
+        /* ── RESOURCE GROUPS ── */
+        .res-group {
+            margin-bottom: 40px
+        }
+
+        .res-group-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            font-weight: 500;
+            color: var(--t3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .res-group-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--b1)
+        }
+
+        /* ── RESOURCE GRID ── */
+        .res-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px
+        }
+
+        @media(max-width:600px) {
+            .res-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* ── RESOURCE CARD ── */
+        .res-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            padding: 16px;
+            color: inherit;
+            position: relative;
+            transition: border-color .15s, background .15s, transform .15s;
+        }
+
+        .res-card:hover {
+            border-color: var(--b2);
+            background: var(--s2);
+            transform: translateY(-2px)
+        }
+
+        /* Logo box */
+        .res-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            background: var(--s3);
+            border: 1px solid var(--b1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .res-logo img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            display: block
+        }
+
+        .res-logo-fb {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .875rem;
+            font-weight: 700;
+            color: var(--t3);
+            display: none;
+        }
+
+        /* Text */
+        .res-body {
+            flex: 1;
+            min-width: 0
+        }
+
+        .res-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.02em;
+            margin-bottom: 3px;
+        }
+
+        .res-desc {
+            font-size: .75rem;
+            color: var(--t2);
+            line-height: 1.55
+        }
+
+        /* Arrow */
+        .res-arrow {
+            font-size: .875rem;
+            color: var(--t3);
+            flex-shrink: 0;
+            margin-top: 1px;
+            transition: color .15s, transform .15s
+        }
+
+        .res-card:hover .res-arrow {
+            color: var(--t1);
+            transform: translate(2px, -2px)
+        }
+
+        /* Badge */
+        .res-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .5rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: var(--a2);
+            color: var(--a);
+        }
+
+        /* TOKENS */
+        :root {
+            --bg: #09090b;
+            --s1: #111113;
+            --s2: #18181b;
+            --s3: #222225;
+            --b1: #27272a;
+            --b2: #3f3f46;
+            --t1: #fafafa;
+            --t2: #a1a1aa;
+            --t3: #52525b;
+            --a: #7c6af8;
+            --a2: rgba(124, 106, 248, .12);
+            --sky: #38bdf8;
+            --sky2: rgba(56, 189, 248, .12);
+            --vio: #818cf8;
+            --vio2: rgba(129, 140, 248, .12);
+            --amb: #fbbf24;
+            --amb2: rgba(251, 191, 36, .12);
+            --ok: #4ade80;
+            --err: #f87171;
+        }
+
+        /* RESET */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--t1);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--a);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+
+        /* SKIP LINK */
+        .skip {
+            position: absolute;
+            top: -50px;
+            left: 16px;
+            background: var(--a);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: .875rem;
+            z-index: 9999;
+            transition: top .15s;
+        }
+
+        .skip:focus {
+            top: 8px;
+        }
+
+        /* ── NAV ─────────────────────────────────────────────── */
+        .nav {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 200;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            background: rgba(9, 9, 11, .8);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border-bottom: 1px solid var(--b1);
+        }
+
+        .nav-wrap {
+            width: 100%;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* Logo */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .nav-logo-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: var(--a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-logo-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .nav-logo-text {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--t1);
+            letter-spacing: -.025em;
+        }
+
+        .nav-logo-img {
+            height: 30px;
+            width: auto;
+            display: block;
+        }
+
+        /* Links — pill group */
+        .nav-links {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-links-inner {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--b1);
+            border-radius: 99px;
+            padding: 4px;
+        }
+
+        .nav-links-inner a {
+            font-size: .8125rem;
+            font-weight: 500;
+            color: var(--t2);
+            padding: 6px 16px;
+            border-radius: 99px;
+            transition: color .15s, background .15s;
+            white-space: nowrap;
+        }
+
+        .nav-links-inner a:hover {
+            color: var(--t1);
+            background: rgba(255, 255, 255, .07);
+        }
+
+        /* CTA */
+        .nav-cta {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border-radius: 99px;
+            background: var(--a);
+            color: #fff;
+            border: none;
+            font-size: .8125rem;
+            font-weight: 600;
+            transition: opacity .15s;
+        }
+
+        .nav-cta:hover {
+            opacity: .88;
+        }
+
+        /* Hamburger */
+        .nav-ham {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--b1);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--t1);
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background .15s;
+        }
+
+        .nav-ham:hover {
+            background: var(--s2);
+        }
+
+        .nav-ham svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        /* Mobile drawer */
+        .nav-drawer {
+            position: fixed;
+            top: 60px;
+            inset: auto 0;
+            z-index: 190;
+            background: var(--s1);
+            border-bottom: 1px solid var(--b1);
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height .28s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .nav-drawer.open {
+            max-height: 300px;
+        }
+
+        .nav-drawer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 12px 20px 20px;
+        }
+
+        .nav-drawer-links a {
+            font-size: .9375rem;
+            font-weight: 500;
+            color: var(--t2);
+            padding: 12px 16px;
+            border-radius: 10px;
+            transition: background .15s, color .15s;
+        }
+
+        .nav-drawer-links a:hover {
+            background: var(--s2);
+            color: var(--t1);
+        }
+
+        .nav-drawer-cta {
+            margin-top: 8px;
+            text-align: center;
+            background: var(--a) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+            border-radius: 99px !important;
+        }
+
+        @media (max-width: 800px) {
+            .nav-wrap {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .nav-ham {
+                display: flex;
+            }
+        }
+
+        /* ── HERO ─────────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            min-height: 100dvh;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 24px 80px;
+        }
+
+        /* Single soft violet glow — the atmosphere */
+        .hero-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 65%;
+            background: radial-gradient(ellipse 65% 70% at 50% 15%,
+                    rgba(124, 106, 248, .2) 0%,
+                    rgba(124, 106, 248, .07) 50%,
+                    transparent 80%);
+            pointer-events: none;
+        }
+
+        /* ── VOLUMETRIC LIGHT BEAM ────────────────────────── */
+        .vl-wrap {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Outer atmospheric haze — wide scatter */
+        .vl-haze {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 820px;
+            height: 92vh;
+            margin-left: -410px;
+            clip-path: polygon(50% 0%, 3% 100%, 97% 100%);
+            background: linear-gradient(180deg,
+                    rgba(130, 108, 255, .16) 0%,
+                    rgba(110, 88, 245, .08) 38%,
+                    rgba(90, 70, 225, .03) 68%,
+                    transparent 100%);
+            filter: blur(44px);
+            animation: vl-pulse 10s ease-in-out infinite;
+        }
+
+        /* Main shaft — the visible light column */
+        .vl-shaft {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 300px;
+            height: 84vh;
+            margin-left: -150px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background: linear-gradient(180deg,
+                    rgba(205, 183, 255, .32) 0%,
+                    rgba(165, 140, 255, .16) 28%,
+                    rgba(124, 106, 248, .08) 60%,
+                    transparent 100%);
+            filter: blur(16px);
+            animation: vl-pulse 10s ease-in-out infinite .9s;
+        }
+
+        /* Inner shaft — brighter tighter cone */
+        .vl-inner {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 96px;
+            height: 74vh;
+            margin-left: -48px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background: linear-gradient(180deg,
+                    rgba(245, 232, 255, .80) 0%,
+                    rgba(208, 185, 255, .42) 18%,
+                    rgba(165, 140, 255, .20) 50%,
+                    rgba(130, 108, 255, .06) 78%,
+                    transparent 100%);
+            filter: blur(5px);
+            animation: vl-pulse 10s ease-in-out infinite 1.6s;
+        }
+
+        /* Hot core — near-white at source point */
+        .vl-core {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 22px;
+            height: 50vh;
+            margin-left: -11px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background: linear-gradient(180deg,
+                    rgba(255, 254, 255, 1) 0%,
+                    rgba(238, 222, 255, .90) 10%,
+                    rgba(200, 175, 255, .55) 38%,
+                    rgba(155, 132, 255, .18) 68%,
+                    transparent 100%);
+            filter: blur(1.2px);
+            animation: vl-core-pulse 10s ease-in-out infinite .5s;
+        }
+
+        /* Fresnel edge — bright left boundary */
+        .vl-edge-l {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1.5px;
+            height: 78vh;
+            transform-origin: top center;
+            transform: translateX(-50%) rotate(-20deg);
+            background: linear-gradient(180deg,
+                    rgba(248, 238, 255, .95) 0%,
+                    rgba(200, 175, 255, .50) 28%,
+                    rgba(148, 126, 255, .14) 62%,
+                    transparent 100%);
+            filter: blur(.8px);
+            animation: vl-edge 10s ease-in-out infinite .3s;
+        }
+
+        /* Fresnel edge — bright right boundary */
+        .vl-edge-r {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1.5px;
+            height: 78vh;
+            transform-origin: top center;
+            transform: translateX(-50%) rotate(20deg);
+            background: linear-gradient(180deg,
+                    rgba(248, 238, 255, .95) 0%,
+                    rgba(200, 175, 255, .50) 28%,
+                    rgba(148, 126, 255, .14) 62%,
+                    transparent 100%);
+            filter: blur(.8px);
+            animation: vl-edge 10s ease-in-out infinite 1.1s;
+        }
+
+        /* Source burst — hot glow at origin */
+        .vl-source {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 90px;
+            background: radial-gradient(ellipse 55% 80% at 50% 5%,
+                    rgba(255, 253, 255, .90) 0%,
+                    rgba(220, 200, 255, .60) 25%,
+                    rgba(165, 142, 255, .22) 55%,
+                    transparent 82%);
+            filter: blur(9px);
+            animation: vl-source 5s ease-in-out infinite;
+        }
+
+        /* Floor pool — diffuse spread at beam terminus */
+        .vl-pool {
+            position: absolute;
+            top: 74vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 130px;
+            background: radial-gradient(ellipse 50% 50% at 50% 50%,
+                    rgba(124, 106, 248, .16) 0%,
+                    rgba(100, 82, 235, .07) 48%,
+                    transparent 72%);
+            filter: blur(26px);
+            animation: vl-pulse 10s ease-in-out infinite 3.5s;
+        }
+
+        /* Canvas for floating dust particles */
+        .vl-particles {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes vl-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .52;
+            }
+        }
+
+        @keyframes vl-core-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                filter: blur(1.2px);
+            }
+
+            50% {
+                opacity: .70;
+                filter: blur(2.8px);
+            }
+        }
+
+        @keyframes vl-edge {
+
+            0%,
+            100% {
+                opacity: .88;
+            }
+
+            50% {
+                opacity: .32;
+            }
+        }
+
+        @keyframes vl-source {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scaleX(1);
+            }
+
+            50% {
+                opacity: .60;
+                transform: translateX(-50%) scaleX(.82);
+            }
+        }
+
+        /* Dot grid fades out toward edges */
+        .hero-dots {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(255, 255, 255, .15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0, 0, 0, .6) 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0, 0, 0, .6) 0%, transparent 100%);
+        }
+
+        /* Content sits on top */
+        .hero-body {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            font-weight: 500;
+            color: var(--t2);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 99px;
+            padding: 6px 16px;
+            margin-bottom: 28px;
+            background: rgba(255, 255, 255, .04);
+            backdrop-filter: blur(8px);
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--a);
+            flex-shrink: 0;
+        }
+
+        .hero-h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.8rem, 8vw, 5.8rem);
+            line-height: 1.0;
+            letter-spacing: -.05em;
+            margin-bottom: 20px;
+        }
+
+        .hero-h1 .plain {
+            display: block;
+            color: var(--t1);
+        }
+
+        .hero-h1 .grad {
+            display: block;
+            background: linear-gradient(110deg, #7c6af8, #a78bfa 45%, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.0625rem;
+            color: var(--t2);
+            line-height: 1.65;
+            max-width: 440px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 11px 24px;
+            border-radius: 99px;
+            border: none;
+            background: var(--a);
+            color: #fff;
+            font-size: .875rem;
+            font-weight: 600;
+            transition: opacity .15s;
+        }
+
+        .btn-a:hover {
+            opacity: .88;
+        }
+
+        .btn-a svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .btn-b {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 10px 22px;
+            border-radius: 99px;
+            border: 1px solid var(--b2);
+            background: transparent;
+            color: var(--t2);
+            font-size: .875rem;
+            font-weight: 500;
+            transition: border-color .15s, color .15s;
+        }
+
+        .btn-b:hover {
+            border-color: var(--t2);
+            color: var(--t1);
+        }
+
+        /* Scroll cue */
+        .hero-scroll {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            font-weight: 500;
+            color: var(--t3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            animation: sc-bob 2.5s ease-in-out infinite;
+        }
+
+        .hero-scroll-line {
+            width: 1px;
+            height: 28px;
+            background: linear-gradient(var(--t3), transparent);
+        }
+
+        @keyframes sc-bob {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(6px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 90px 20px 70px;
+            }
+
+            .hero-h1 {
+                font-size: clamp(2.3rem, 11vw, 3.4rem);
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-a,
+            .btn-b {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-glow {
+                width: 100%;
+            }
+        }
+
+        /* ── LAYOUT ──────────────────────────────────────────── */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .section {
+            padding: 80px 0 0;
+        }
+
+        .sec-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            font-weight: 500;
+            color: var(--t3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sec-label::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--b2);
+            flex-shrink: 0;
+        }
+
+        .sec-h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 700;
+            letter-spacing: -.04em;
+            color: var(--t1);
+            margin-bottom: 6px;
+        }
+
+        .sec-h2 em {
+            font-style: normal;
+            color: var(--t2);
+        }
+
+        .sec-sub {
+            font-size: .9375rem;
+            color: var(--t2);
+            margin-bottom: 36px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .section {
+                padding: 56px 0 0;
+            }
+        }
+
+        /* ── PATH CARDS ──────────────────────────────────────── */
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        @media (max-width: 860px) {
+            .path-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pcard {
+            border: 1px solid var(--b1);
+            border-radius: 16px;
+            background: var(--s1);
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            transition: border-color .2s, background .2s;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .pcard:hover {
+            border-color: var(--b2);
+            background: var(--s2);
+        }
+
+        .pcard[data-on] {
+            background: var(--s2);
+        }
+
+        .pcard[data-path=v][data-on] {
+            border-color: var(--sky);
+        }
+
+        .pcard[data-path=b][data-on] {
+            border-color: var(--vio);
+        }
+
+        .pcard[data-path=a][data-on] {
+            border-color: var(--amb);
+        }
+
+        /* left accent bar */
+        .pcard[data-on]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 3px;
+        }
+
+        .pcard[data-path=v][data-on]::before {
+            background: var(--sky);
+        }
+
+        .pcard[data-path=b][data-on]::before {
+            background: var(--vio);
+        }
+
+        .pcard[data-path=a][data-on]::before {
+            background: var(--amb);
+        }
+
+        /* watermark number */
+        .pcard-wm {
+            position: absolute;
+            bottom: -8px;
+            right: 14px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, .03);
+            line-height: 1;
+            letter-spacing: -.06em;
+            pointer-events: none;
+        }
+
+        .pc-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .pc-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pc-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .pcard[data-path=v] .pc-icon {
+            background: var(--sky2);
+            color: var(--sky);
+        }
+
+        .pcard[data-path=b] .pc-icon {
+            background: var(--vio2);
+            color: var(--vio);
+        }
+
+        .pcard[data-path=a] .pc-icon {
+            background: var(--amb2);
+            color: var(--amb);
+        }
+
+        .pc-seq {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            color: var(--t3);
+        }
+
+        .pc-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            font-weight: 500;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .pcard[data-path=v] .pc-kicker {
+            color: var(--sky);
+        }
+
+        .pcard[data-path=b] .pc-kicker {
+            color: var(--vio);
+        }
+
+        .pcard[data-path=a] .pc-kicker {
+            color: var(--amb);
+        }
+
+        .pc-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.03em;
+            margin-bottom: 8px;
+        }
+
+        .pc-desc {
+            font-size: .8125rem;
+            color: var(--t2);
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 18px;
+        }
+
+        .pc-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 18px;
+        }
+
+        .pc-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            padding: 3px 9px;
+            border-radius: 5px;
+            background: var(--s3);
+            border: 1px solid var(--b1);
+            color: var(--t3);
+        }
+
+        .pc-cta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .8rem;
+            font-weight: 600;
+            margin-top: auto;
+            transition: gap .2s;
+        }
+
+        .pcard[data-path=v] .pc-cta {
+            color: var(--sky);
+        }
+
+        .pcard[data-path=b] .pc-cta {
+            color: var(--vio);
+        }
+
+        .pcard[data-path=a] .pc-cta {
+            color: var(--amb);
+        }
+
+        .pcard:hover .pc-cta {
+            gap: 10px;
+        }
+
+        .pc-cta svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        @media (max-width: 860px) {
+            .pcard {
+                min-height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0;
+            }
+
+            .pc-top {
+                width: 100%;
+                margin-bottom: 12px;
+            }
+
+            .pcard-wm {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .pcard {
+                flex-direction: column;
+            }
+        }
+
+        /* ── PATH CONTENT ────────────────────────────────────── */
+        .path-content {
+            display: none;
+            border-top: 1px solid var(--b1);
+            margin-top: 56px;
+        }
+
+        .path-content.on {
+            display: block;
+        }
+
+        .path-hdr {
+            padding: 32px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .path-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            font-weight: 600;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 99px;
+            border: 1px solid;
+        }
+
+        .path-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -.04em;
+            color: var(--t1);
+        }
+
+        .path-sub {
+            font-size: .875rem;
+            color: var(--t2);
+            margin-left: auto;
+        }
+
+        @media (max-width: 600px) {
+            .path-hdr {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .path-sub {
+                margin-left: 0;
+            }
+        }
+
+        /* Tab bar */
+        .tabs {
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+            background: var(--bg);
+            border-bottom: 1px solid var(--b1);
+            display: flex;
+            gap: 2px;
+            padding: 10px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0;
+            font-size: .8125rem;
+            font-weight: 500;
+            color: var(--t2);
+            padding: 8px 16px;
+            min-height: 36px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: color .15s, background .15s, border-color .15s;
+            white-space: nowrap;
+        }
+
+        .tab svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        .tab:hover {
+            color: var(--t1);
+            background: var(--s1);
+        }
+
+        .tab.on {
+            color: var(--t1);
+            background: var(--s2);
+            border-color: var(--b1);
+        }
+
+        #panel {
+            padding-top: 28px;
+            animation: pfade .2s ease both;
+        }
+
+        @keyframes pfade {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Panel heading */
+        .ph {
+            margin-bottom: 24px;
+        }
+
+        .ph h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.03em;
+            margin-bottom: 4px;
+        }
+
+        .ph p {
+            font-size: .875rem;
+            color: var(--t2);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        /* Category row */
+        .cat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 22px 0 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            font-weight: 500;
+            color: var(--t3);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .cat::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--b1);
+        }
+
+        /* ── TOOL CARDS ──────────────────────────────────────── */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+            gap: 10px;
+        }
+
+        .tool-card {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            padding: 18px;
+            transition: border-color .15s, background .15s;
+        }
+
+        .tool-card:hover {
+            border-color: var(--b2);
+            background: var(--s2);
+        }
+
+        .tool-card--link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .tool-card--link:hover {
+            border-color: var(--a);
+        }
+
+        .tool-logo {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--b1);
+            background: var(--s3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .tool-logo img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        .tool-logo-fb {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .875rem;
+            font-weight: 700;
+            color: var(--t3);
+            display: none;
+        }
+
+        .tool-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .5625rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .tool-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .9375rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.02em;
+            margin-bottom: 3px;
+        }
+
+        .tool-role {
+            font-size: .75rem;
+            color: var(--t2);
+            margin-bottom: 10px;
+        }
+
+        .tool-desc {
+            font-size: .73rem;
+            color: var(--t3);
+            line-height: 1.5;
+            border-top: 1px solid var(--b1);
+            padding-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .tool-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── WORKFLOW ─────────────────────────────────────────── */
+        .wf-item {
+            display: flex;
+            gap: 18px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--b1);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity .35s ease, transform .35s ease;
+        }
+
+        .wf-item.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wf-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--b1);
+            background: var(--s1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            color: var(--t3);
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: border-color .15s, color .15s;
+        }
+
+        .wf-item:hover .wf-n {
+            border-color: var(--b2);
+            color: var(--t2);
+        }
+
+        .wf-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wf-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+        }
+
+        .wf-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .9375rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.02em;
+        }
+
+        .wf-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .5625rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .tq {
+            background: rgba(56, 189, 248, .1);
+            color: var(--sky);
+        }
+
+        .tc {
+            background: rgba(248, 113, 113, .1);
+            color: var(--err);
+        }
+
+        .tr {
+            background: rgba(124, 106, 248, .1);
+            color: var(--a);
+        }
+
+        .to {
+            background: var(--s3);
+            border: 1px solid var(--b1);
+            color: var(--t3);
+        }
+
+        .wf-desc {
+            font-size: .8125rem;
+            color: var(--t2);
+            line-height: 1.6;
+        }
+
+        /* ── DOCS ACCORDION ──────────────────────────────────── */
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .doc-card {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .doc-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            min-height: 60px;
+            transition: background .15s;
+        }
+
+        .doc-btn:hover {
+            background: var(--s2);
+        }
+
+        .doc-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .doc-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .doc-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .doc-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .875rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.02em;
+            margin-bottom: 3px;
+            text-align: left;
+        }
+
+        .doc-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .5625rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            display: inline-block;
+        }
+
+        .doc-chev {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            color: var(--t3);
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .doc-card[data-open] .doc-chev {
+            transform: rotate(180deg);
+        }
+
+        /* CSS grid accordion — proven to work */
+        .doc-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .28s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .doc-card[data-open] .doc-body {
+            grid-template-rows: 1fr;
+        }
+
+        .doc-body>div {
+            overflow: hidden;
+        }
+
+        .doc-body-inner {
+            padding: 0 16px 16px;
+            border-top: 1px solid var(--b1);
+        }
+
+        .doc-items {
+            list-style: none;
+            padding: 12px 0 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .doc-items li {
+            font-size: .8125rem;
+            color: var(--t2);
+            padding-left: 16px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .doc-items li::before {
+            content: '↳';
+            position: absolute;
+            left: 0;
+            color: var(--t3);
+            font-size: .7rem;
+            line-height: 1.7;
+        }
+
+        .doc-tip {
+            padding: 10px 12px;
+            background: var(--s3);
+            border-radius: 8px;
+            border-left: 2px solid var(--b2);
+        }
+
+        .doc-tip p {
+            font-size: .75rem;
+            color: var(--t2);
+            line-height: 1.55;
+        }
+
+        .doc-tip strong {
+            color: var(--t1);
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── STACK ───────────────────────────────────────────── */
+        .stack-note {
+            font-size: .875rem;
+            color: var(--t2);
+            padding: 14px 18px;
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+
+        .stack-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stack-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 10px;
+            padding: 12px 18px;
+            transition: border-color .15s;
+            flex-wrap: wrap;
+        }
+
+        .stack-row:hover {
+            border-color: var(--b2);
+        }
+
+        .stack-lbl {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            font-weight: 500;
+            color: var(--t3);
+            width: 88px;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+
+        .stack-techs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .stack-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .6875rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid;
+        }
+
+        .stack-nn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            color: var(--t3);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 600px) {
+            .stack-row {
+                gap: 8px;
+            }
+
+            .stack-lbl {
+                width: 100%;
+            }
+
+            .stack-nn {
+                margin-left: 0;
+            }
+        }
+
+        /* ── CEILING ─────────────────────────────────────────── */
+        .ceil-card {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .ceil-hdr {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+
+        .ceil-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.03em;
+        }
+
+        .ceil-pct {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .8125rem;
+            color: var(--t2);
+        }
+
+        .ceil-track {
+            height: 6px;
+            background: var(--s3);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .ceil-fill {
+            height: 100%;
+            border-radius: 99px;
+            width: 0;
+            transition: width 1.2s cubic-bezier(.25, .46, .45, .94);
+        }
+
+        .ceil-desc {
+            font-size: .875rem;
+            color: var(--t2);
+            line-height: 1.65;
+            margin-bottom: 22px;
+        }
+
+        .ceil-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .ceil-col h4 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .c-ok h4 {
+            color: var(--ok);
+        }
+
+        .c-no h4 {
+            color: var(--err);
+        }
+
+        .ceil-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ceil-col li {
+            font-size: .8rem;
+            color: var(--t2);
+            padding-left: 14px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .c-ok li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--ok);
+            font-size: .65rem;
+            line-height: 1.85;
+        }
+
+        .c-no li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: var(--err);
+            font-size: .65rem;
+            line-height: 1.85;
+        }
+
+        @media (max-width: 540px) {
+            .ceil-cols {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── UNIVERSAL ───────────────────────────────────────── */
+        .univ {
+            padding: 80px 0;
+        }
+
+        .univ-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .ucard {
+            background: var(--s1);
+            border: 1px solid var(--b1);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color .15s, background .15s;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .ucard.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ucard:hover {
+            border-color: var(--b2);
+            background: var(--s2);
+        }
+
+        .ucard::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+
+        .ucard:nth-child(4n+1)::after {
+            background: linear-gradient(90deg, var(--sky), transparent);
+        }
+
+        .ucard:nth-child(4n+2)::after {
+            background: linear-gradient(90deg, var(--vio), transparent);
+        }
+
+        .ucard:nth-child(4n+3)::after {
+            background: linear-gradient(90deg, var(--amb), transparent);
+        }
+
+        .ucard:nth-child(4n+4)::after {
+            background: linear-gradient(90deg, var(--ok), transparent);
+        }
+
+        .ucard-n {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, .03);
+            line-height: 1;
+            letter-spacing: -.05em;
+            pointer-events: none;
+        }
+
+        .ucard-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .ucard-icon svg {
+            width: 19px;
+            height: 19px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ucard-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .9375rem;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.025em;
+            margin-bottom: 6px;
+        }
+
+        .ucard-desc {
+            font-size: .8rem;
+            color: var(--t2);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .ucard-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ucard-list li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .625rem;
+            color: var(--t3);
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .ucard-list li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--b2);
+        }
+
+        @media (max-width: 700px) {
+            .univ-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .univ-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── FOOTER ──────────────────────────────────────────── */
+        .footer {
+            border-top: 1px solid var(--b1);
+            padding: 40px 0;
+        }
+
+        .foot-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .foot-l {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .foot-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .foot-logo-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: var(--a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foot-logo-icon svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .foot-logo-text {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: .9375rem;
+            font-weight: 700;
+            color: var(--t1);
+        }
+
+        .foot-logo-img {
+            height: 26px;
+            width: auto;
+            display: block;
+        }
+
+        .foot-tag {
+            font-size: .8rem;
+            color: var(--t3);
+            margin-left: 0;
+        }
+
+        .foot-credit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .75rem;
+            color: var(--t3);
+        }
+
+        .foot-credit a {
+            color: var(--t1);
+            font-weight: 600;
+            border-bottom: 1px solid var(--b2);
+            transition: border-color .15s;
+        }
+
+        .foot-credit a:hover {
+            border-color: var(--t1);
+        }
+
+        @media (max-width: 540px) {
+            .foot-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* ── REVEAL ──────────────────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .45s ease, transform .45s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- NAV -->
+    <header class="nav" role="banner">
+        <div class="nav-wrap">
+            <a class="nav-logo" href="#" aria-label="Ship Real — home">
+                <img src="wbm - logo - white.webp" alt="Ship Real" class="nav-logo-img">
+            </a>
+            <div class="nav-links" aria-label="Site navigation">
+                <div class="nav-links-inner">
+                    <a href="#paths">Choose Path</a>
+                    <a href="#universal">Foundations</a>
+                    <a href="#footer">About</a>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+                <a href="#paths" class="nav-cta">Get Started</a>
+                <button class="nav-ham" id="ham" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+                    <svg id="ham-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE DRAWER -->
+    <div class="nav-drawer" id="drawer" aria-hidden="true">
+        <nav class="nav-drawer-links" aria-label="Mobile navigation">
+            <a href="#paths">Choose Path</a>
+            <a href="#universal">Foundations</a>
+            <a href="#footer">About</a>
+            <a href="#paths" class="nav-drawer-cta">Get Started →</a>
+        </nav>
+    </div>
+
+    <main id="main">
+
+        <!-- HERO -->
+        <section class="hero" aria-labelledby="hero-h">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="vl-wrap" aria-hidden="true">
+                <div class="vl-haze"></div>
+                <div class="vl-shaft"></div>
+                <div class="vl-inner"></div>
+                <div class="vl-core"></div>
+                <div class="vl-edge-l"></div>
+                <div class="vl-edge-r"></div>
+                <div class="vl-source"></div>
+                <div class="vl-pool"></div>
+                <canvas class="vl-particles" id="vlP"></canvas>
+            </div>
+            <div class="hero-dots" aria-hidden="true"></div>
+            <div class="hero-body">
+                <div class="hero-badge"><span class="hero-badge-dot" aria-hidden="true"></span>The Builder's Production
+                    Guide · 2026</div>
+                <h1 id="hero-h" class="hero-h1">
+                    <span class="plain">Stop Vibing.</span>
+                    <span class="grad">Start Shipping.</span>
+                </h1>
+                <p class="hero-sub">Build production-ready software with AI — tools, workflows, and docs tailored to
+                    your actual skill level.</p>
+                <div class="hero-btns">
+                    <a href="#paths" class="btn-a">Choose Your Path<svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg></a>
+                    <a href="#universal" class="btn-b">View Foundations</a>
+                </div>
+            </div>
+            <a href="#paths" class="hero-scroll" aria-label="Scroll down">
+                <div class="hero-scroll-line" aria-hidden="true"></div>
+                Scroll
+            </a>
+        </section>
+
+        <!-- PATH SELECTOR -->
+        <section id="paths" class="section" aria-labelledby="paths-h">
+            <div class="container">
+                <div class="reveal">
+                    <div class="sec-label">Step 01 — Find Your Level</div>
+                    <h2 id="paths-h" class="sec-h2">Which builder <em>are you?</em></h2>
+                    <p class="sec-sub">Pick the path that matches where you actually are, not where you wish you were.
+                    </p>
+                </div>
+                <div class="path-grid reveal" role="group" aria-label="Select your builder profile">
+
+                    <div class="pcard" data-path="v" role="button" tabindex="0"
+                        aria-label="The Visionary — No Coding Experience" onclick="pick('v')"
+                        onkeydown="if(event.key==='Enter'||event.key===' '){pick('v');event.preventDefault()}">
+                        <div class="pcard-wm" aria-hidden="true">01</div>
+                        <div class="pc-top">
+                            <div class="pc-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </div>
+                            <span class="pc-seq">01 / 03</span>
+                        </div>
+                        <div class="pc-kicker">No Coding Experience</div>
+                        <div class="pc-title">The Visionary</div>
+                        <p class="pc-desc">You have the idea and the drive. You don't write code — you direct AI like a
+                            product manager who ships real things.</p>
+                        <div class="pc-tags"><span class="pc-tag">Lovable</span><span
+                                class="pc-tag">Bolt.new</span><span class="pc-tag">Replit</span><span
+                                class="pc-tag">v0</span></div>
+                        <div class="pc-cta" aria-hidden="true">Explore path <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg></div>
+                    </div>
+
+                    <div class="pcard" data-path="b" role="button" tabindex="0"
+                        aria-label="The Builder — Front-end or Back-end developer" onclick="pick('b')"
+                        onkeydown="if(event.key==='Enter'||event.key===' '){pick('b');event.preventDefault()}">
+                        <div class="pcard-wm" aria-hidden="true">02</div>
+                        <div class="pc-top">
+                            <div class="pc-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <polyline points="16 18 22 12 16 6" />
+                                    <polyline points="8 6 2 12 8 18" />
+                                </svg>
+                            </div>
+                            <span class="pc-seq">02 / 03</span>
+                        </div>
+                        <div class="pc-kicker">Front-End or Back-End Dev</div>
+                        <div class="pc-title">The Builder</div>
+                        <p class="pc-desc">You know one side of the stack. AI accelerates what you know and fills the
+                            side you don't — while you keep full ownership.</p>
+                        <div class="pc-tags"><span class="pc-tag">Cursor</span><span class="pc-tag">Windsurf</span><span
+                                class="pc-tag">v0</span><span class="pc-tag">Claude Code</span></div>
+                        <div class="pc-cta" aria-hidden="true">Explore path <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg></div>
+                    </div>
+
+                    <div class="pcard" data-path="a" role="button" tabindex="0"
+                        aria-label="The Architect — Full-stack developer" onclick="pick('a')"
+                        onkeydown="if(event.key==='Enter'||event.key===' '){pick('a');event.preventDefault()}">
+                        <div class="pcard-wm" aria-hidden="true">03</div>
+                        <div class="pc-top">
+                            <div class="pc-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                    <polyline points="2 17 12 22 22 17" />
+                                    <polyline points="2 12 12 17 22 12" />
+                                </svg>
+                            </div>
+                            <span class="pc-seq">03 / 03</span>
+                        </div>
+                        <div class="pc-kicker">Full-Stack Developer</div>
+                        <div class="pc-title">The Architect</div>
+                        <p class="pc-desc">You understand systems end to end. Use AI as your senior engineer —
+                            spec-driven, context-aware, governed by your architectural judgment.</p>
+                        <div class="pc-tags"><span class="pc-tag">Claude Code</span><span
+                                class="pc-tag">Cursor</span><span class="pc-tag">Aider</span><span
+                                class="pc-tag">SpecKit</span></div>
+                        <div class="pc-cta" aria-hidden="true">Explore path <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PATH CONTENT -->
+        <div id="pc" class="path-content">
+            <div class="container">
+                <div class="path-hdr">
+                    <div class="path-pill" id="pc-pill"></div>
+                    <div class="path-name" id="pc-name"></div>
+                    <div class="path-sub" id="pc-sub"></div>
+                </div>
+                <div class="tabs" role="tablist" aria-label="Path sections">
+                    <button class="tab" data-t="tools" role="tab" aria-selected="false" onclick="go('tools')"><svg
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+                        </svg>Tools</button>
+                    <button class="tab" data-t="workflow" role="tab" aria-selected="false" onclick="go('workflow')"><svg
+                            viewBox="0 0 24 24">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>Workflow</button>
+                    <button class="tab" data-t="docs" role="tab" aria-selected="false" onclick="go('docs')"><svg
+                            viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>Docs</button>
+                    <button class="tab" data-t="stack" role="tab" aria-selected="false" onclick="go('stack')"><svg
+                            viewBox="0 0 24 24">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                            <polyline points="2 17 12 22 22 17" />
+                            <polyline points="2 12 12 17 22 12" />
+                        </svg>Stack</button>
+                    <button class="tab" data-t="ceil" role="tab" aria-selected="false" onclick="go('ceil')"><svg
+                            viewBox="0 0 24 24">
+                            <path d="M18 20V10" />
+                            <path d="M12 20V4" />
+                            <path d="M6 20v-6" />
+                        </svg>What AI Can Do</button>
+                </div>
+                <div id="panel" role="tabpanel"></div>
+            </div>
+        </div>
+
+        <!-- UNIVERSAL -->
+        <section id="universal" class="univ" aria-labelledby="univ-h">
+            <div class="container">
+                <div class="reveal">
+                    <div class="sec-label">For Every Path</div>
+                    <h2 id="univ-h" class="sec-h2">The <em>non-negotiables</em></h2>
+                    <p class="sec-sub">Regardless of experience — skip any of these and you are building on sand.</p>
+                </div>
+                <ul class="univ-grid" role="list">
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">01</div>
+                        <div class="ucard-icon" style="background:rgba(56,189,248,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#38bdf8">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                            </svg></div>
+                        <h3 class="ucard-title">Write a PRD First</h3>
+                        <p class="ucard-desc">Vague input produces vague code. Define the problem, user, features, and
+                            success metrics before opening any AI tool.</p>
+                        <ul class="ucard-list">
+                            <li>Problem statement</li>
+                            <li>Target user persona</li>
+                            <li>Must-have features (max 5)</li>
+                            <li>User flows</li>
+                            <li>Success metrics</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">02</div>
+                        <div class="ucard-icon" style="background:rgba(129,140,248,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#818cf8">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                            </svg></div>
+                        <h3 class="ucard-title">Git from Day One</h3>
+                        <p class="ucard-desc">Initialize a repo and push to GitHub before writing a single prompt. AI
+                            will break things — you must be able to roll back.</p>
+                        <ul class="ucard-list">
+                            <li>Initialize Git immediately</li>
+                            <li>Push to GitHub</li>
+                            <li>Commit after every feature</li>
+                            <li>Never deploy manually</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">03</div>
+                        <div class="ucard-icon" style="background:rgba(251,191,36,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#fbbf24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg></div>
+                        <h3 class="ucard-title">Security Review</h3>
+                        <p class="ucard-desc">45% of AI-generated code contains OWASP Top 10 vulnerabilities. Review
+                            auth, inputs, SQL, and secrets after every major feature.</p>
+                        <ul class="ucard-list">
+                            <li>Auth on all protected routes</li>
+                            <li>Validate all user input</li>
+                            <li>No hardcoded secrets</li>
+                            <li>Rate limiting on public APIs</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">04</div>
+                        <div class="ucard-icon" style="background:rgba(74,222,128,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#4ade80">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                            </svg></div>
+                        <h3 class="ucard-title">Build Thin Verticals</h3>
+                        <p class="ucard-desc">One complete end-to-end feature, tested fully, before the next. Smaller
+                            context = better AI output.</p>
+                        <ul class="ucard-list">
+                            <li>One feature per session</li>
+                            <li>Test before moving on</li>
+                            <li>End-to-end first</li>
+                            <li>Then polish</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">05</div>
+                        <div class="ucard-icon" style="background:rgba(56,189,248,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#38bdf8">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg></div>
+                        <h3 class="ucard-title">Validate Before Building</h3>
+                        <p class="ucard-desc">Find real people complaining about your problem on Reddit, X, and G2
+                            before writing a single line. Those complaints are your roadmap.</p>
+                        <ul class="ucard-list">
+                            <li>Reddit threads</li>
+                            <li>G2 / Trustpilot reviews</li>
+                            <li>Competitor complaints</li>
+                            <li>Talk to 5 real people</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">06</div>
+                        <div class="ucard-icon" style="background:rgba(129,140,248,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#818cf8">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg></div>
+                        <h3 class="ucard-title">Add Observability Early</h3>
+                        <p class="ucard-desc">Add error tracking and analytics before users arrive — not after they
+                            complain about something that has been broken for weeks.</p>
+                        <ul class="ucard-list">
+                            <li>Sentry (errors)</li>
+                            <li>PostHog (analytics)</li>
+                            <li>Logtail (logs)</li>
+                            <li>Uptime monitoring</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">07</div>
+                        <div class="ucard-icon" style="background:rgba(251,191,36,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#fbbf24">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <line x1="8" y1="21" x2="16" y2="21" />
+                                <line x1="12" y1="17" x2="12" y2="21" />
+                            </svg></div>
+                        <h3 class="ucard-title">Scope Aggressively</h3>
+                        <p class="ucard-desc">5 features done perfectly beats 50 features poorly. Define your MLP scope
+                            before you start. Ship, learn, then iterate.</p>
+                        <ul class="ucard-list">
+                            <li>Define MLP scope first</li>
+                            <li>Defer nice-to-haves</li>
+                            <li>No AI features at v1</li>
+                            <li>Ship → Learn → Iterate</li>
+                        </ul>
+                    </li>
+                    <li class="ucard" role="listitem">
+                        <div class="ucard-n" aria-hidden="true">08</div>
+                        <div class="ucard-icon" style="background:rgba(74,222,128,.1)" aria-hidden="true"><svg
+                                viewBox="0 0 24 24" stroke="#4ade80">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                                <path d="M16 3.13a4 4 0 010 7.75" />
+                            </svg></div>
+                        <h3 class="ucard-title">5 Users Before Features</h3>
+                        <p class="ucard-desc">Talk to 5 real users before adding anything new. Where they get confused
+                            is your actual roadmap — not your wishlist.</p>
+                        <ul class="ucard-list">
+                            <li>Observe, do not explain</li>
+                            <li>Note friction points</li>
+                            <li>Fix confusion first</li>
+                            <li>Then add features</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+    <!DOCTYPE html>
+
+    <section id="resources" style="padding:0 0 80px">
+        <div class="container">
+
+            <div class="sec-label">Go Deeper</div>
+            <h2 class="sec-h2">Helpful <em>references</em></h2>
+            <p class="sec-sub">The best docs, guides, and communities to go from reading to shipping.</p>
+
+            <!-- ── OFFICIAL DOCS ── -->
+            <div class="res-group">
+                <div class="res-group-label">Official Docs</div>
+                <div class="res-grid">
+
+                    <a class="res-card" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/anthropic.com" alt="Anthropic" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">A</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Claude Code Docs</div>
+                            <div class="res-desc">Official Anthropic docs — CLAUDE.md, MCP servers, agentic workflows,
+                                and skill files.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://docs.cursor.com" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/cursor.com" alt="Cursor" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">C</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Cursor Docs</div>
+                            <div class="res-desc">Rules files, agent mode, codebase indexing, and multi-file editing
+                                workflows.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://docs.lovable.dev" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/lovable.dev" alt="Lovable" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">L</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Lovable Docs</div>
+                            <div class="res-desc">From first project to deploying with custom domains — full no-code to
+                                full-stack guide.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://supabase.com/docs" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/supabase.com" alt="Supabase" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">S</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Supabase Docs</div>
+                            <div class="res-desc">Database, auth, storage, and realtime in one place — the standard
+                                backend for AI stacks.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/nextjs.org" alt="Next.js" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">N</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Next.js Docs</div>
+                            <div class="res-desc">App Router, server actions, and deployment — the framework the
+                                community has standardised on.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://v0.dev" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/v0.dev" alt="v0" width="20" height="20" loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">v</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">v0 by Vercel</div>
+                            <div class="res-desc">Describe a UI, get production React + Tailwind code instantly. The
+                                starting point for any UI task.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- ── LEARNING ── -->
+            <div class="res-group">
+                <div class="res-group-label">Learning &amp; Guides</div>
+                <div class="res-grid">
+
+                    <a class="res-card" href="https://roadmap.sh/vibe-coding" target="_blank" rel="noopener noreferrer">
+                        <span class="res-badge">Start Here</span>
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/roadmap.sh" alt="roadmap.sh" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Vibe Coding Roadmap</div>
+                            <div class="res-desc">Community-created roadmap on roadmap.sh — the 6th most starred GitHub
+                                project. Best starting point.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://roadmap.sh/vibe-coding/tutorial" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/roadmap.sh" alt="roadmap.sh" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Build Your First App</div>
+                            <div class="res-desc">Step-by-step tutorial: zero to a deployed app using Claude Code, on
+                                roadmap.sh.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://roadmap.sh/vibe-coding/best-tools" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/roadmap.sh" alt="roadmap.sh" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Best Tools Compared</div>
+                            <div class="res-desc">Cursor vs Claude Code vs Lovable vs Bolt — which tool for which job,
+                                by roadmap.sh.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://codewithmukesh.com/blog/claude-code-for-beginners/"
+                        target="_blank" rel="noopener noreferrer">
+                        <span class="res-badge">June 2026</span>
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/codewithmukesh.com" alt="CodeWithMukesh" width="20"
+                                height="20" loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">C</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Claude Code for Beginners</div>
+                            <div class="res-desc">CLAUDE.md, Plan Mode, memory, context management — verified against
+                                official June 2026 docs.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://moinsen-dev.github.io/claude_code_vibe_coding_guide/"
+                        target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/github.com" alt="GitHub" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">G</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Claude Code Vibe Guide</div>
+                            <div class="res-desc">Community-compiled guide: prompt engineering, multi-agent patterns,
+                                enterprise workflows.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://www.classcentral.com/report/best-vibe-coding-courses/"
+                        target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/classcentral.com" alt="Class Central" width="20"
+                                height="20" loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">C</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Best Vibe Coding Courses</div>
+                            <div class="res-desc">7 curated courses from 80+ options — picks for no-coders, developers,
+                                and full-stack teams.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://newly.app/how-to/learn-vibe-coding-free" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/newly.app" alt="Newly" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">N</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Learn Vibe Coding Free</div>
+                            <div class="res-desc">Full breakdown of free tiers — Lovable, Bolt, Cursor, v0, Replit,
+                                Windsurf, and Copilot.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://github.com/datawhalechina/easy-vibe" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/github.com" alt="GitHub" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">G</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Easy Vibe (GitHub)</div>
+                            <div class="res-desc">Open-source step-by-step curriculum. Stages 1–3 from complete beginner
+                                to shipping real products.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- ── COMMUNITY ── -->
+            <div class="res-group">
+                <div class="res-group-label">Community</div>
+                <div class="res-grid">
+
+                    <a class="res-card" href="https://reddit.com/r/vibecoding" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/reddit.com" alt="Reddit" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">r/vibecoding</div>
+                            <div class="res-desc">Main subreddit — tool comparisons, project showcases, tips, and
+                                real-world discussions.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://reddit.com/r/ClaudeAI" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/reddit.com" alt="Reddit" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">r/ClaudeAI</div>
+                            <div class="res-desc">Claude-specific forum — CLAUDE.md examples, prompting tips, and Claude
+                                Code workflows.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://reddit.com/r/ChatGPTCoding" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/reddit.com" alt="Reddit" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">R</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">r/ChatGPTCoding</div>
+                            <div class="res-desc">AI-assisted coding across all tools. Good source of real-world use
+                                cases and gotchas.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://x.com/karpathy" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/x.com" alt="X" width="20" height="20" loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">𝕏</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">@karpathy on X</div>
+                            <div class="res-desc">The person who coined vibe coding — still active on AI development and
+                                coding topics.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://x.com/AnthropicAI" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/anthropic.com" alt="Anthropic" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">A</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">@AnthropicAI on X</div>
+                            <div class="res-desc">Official Anthropic account — Claude Code updates, new features, and
+                                research releases.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                    <a class="res-card" href="https://discord.gg/lovable" target="_blank" rel="noopener noreferrer">
+                        <div class="res-logo">
+                            <img src="https://logo.clearbit.com/discord.com" alt="Discord" width="20" height="20"
+                                loading="lazy"
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                            <span class="res-logo-fb">D</span>
+                        </div>
+                        <div class="res-body">
+                            <div class="res-name">Lovable Discord</div>
+                            <div class="res-desc">Active community — share projects, get unstuck, and learn from
+                                builders at every level.</div>
+                        </div>
+                        <span class="res-arrow">↗</span>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="foot-inner">
+                <div class="foot-l">
+                    <div class="foot-logo">
+                        <img src="wbm - logo - white.webp" alt="Ship Real" class="foot-logo-img">
+                    </div>
+                    <p class="foot-tag">A research-backed guide to production-grade AI products</p>
+                </div>
+                <div class="foot-credit">Created by <a href="https://prakeerth.com" target="_blank"
+                        rel="noopener noreferrer">Prakeerth JM</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        'use strict';
+
+        /* ── HAMBURGER ─────────────────────────────────────────── */
+        (function () {
+            var btn = document.getElementById('ham');
+            var drw = document.getElementById('drawer');
+            var ico = document.getElementById('ham-icon');
+            var open = false;
+            function close() {
+                open = false; drw.classList.remove('open');
+                drw.setAttribute('aria-hidden', 'true');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.setAttribute('aria-label', 'Open menu');
+                ico.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+            }
+            btn.addEventListener('click', function () {
+                if (open) { close(); return; }
+                open = true; drw.classList.add('open');
+                drw.setAttribute('aria-hidden', 'false');
+                btn.setAttribute('aria-expanded', 'true');
+                btn.setAttribute('aria-label', 'Close menu');
+                ico.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+            });
+            drw.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+            document.addEventListener('click', function (e) { if (open && !btn.contains(e.target) && !drw.contains(e.target)) close(); });
+        })();
+
+        /* ── DATA ─────────────────────────────────────────────── */
+        var D = {
+            v: {
+                pill: 'Path 01', name: 'The Visionary', sub: 'No Coding Experience',
+                color: 'var(--sky)', pStyle: 'border-color:var(--sky);color:var(--sky);background:rgba(56,189,248,.1)',
+                bb: 'rgba(56,189,248,.1)', bc: 'var(--sky)',
+                tc: 'var(--sky)', tb: 'rgba(56,189,248,.2)',
+                fill: 'linear-gradient(90deg,var(--sky),var(--vio))',
+                tools: {
+                    'Visual App Builders': [
+                        { logo: 'lovable.dev', badge: 'Best Start', name: 'Lovable', role: 'Full-stack app builder', desc: 'Complete apps with database, auth and deployment from natural language. The go-to for non-technical founders.', url: 'https://lovable.dev/invite/PT5N9ES' },
+                        { logo: 'bolt.new', badge: 'Fast MVPs', name: 'Bolt.new', role: 'Rapid MVP builder', desc: 'Browser-based instant generation. Prototypes you can share in hours, not days.' },
+                        { logo: 'replit.com', badge: 'Cloud IDE', name: 'Replit', role: 'Browser coding environment', desc: 'Write, run, and deploy in the browser. Includes AI agents and fully managed infrastructure.', url: 'https://replit.com/refer/keerthpriv' },
+                        { logo: 'base44.app', badge: 'Business', name: 'Base44', role: 'Business app builder', desc: 'Internal tools, dashboards, and business apps with predictable pricing.', url: 'https://app.base44.com/register?ref=I5OMNIBDC0C52D9Y' },
+                    ],
+                    'UI and Design': [
+                        { logo: 'v0.dev', badge: 'UI Gen', name: 'v0', role: 'React component generator', desc: 'Generate production-quality React components from text. Export directly to your project.', url: 'https://v0.app/ref/2XH5CR' },
+                        { logo: 'figma.com', badge: 'Wireframe', name: 'Figma', role: 'Layouts and user flows', desc: 'Free plan works for everything at this stage. Sketch flows before building.' },
+                    ],
+                    'AI Planning': [
+                        { logo: 'anthropic.com', badge: 'PRD Writing', name: 'Claude', role: 'Research and planning', desc: 'Best for writing detailed PRDs and thinking through your product structure.' },
+                        { logo: 'openai.com', badge: 'Research', name: 'ChatGPT', role: 'Market research', desc: 'Strong for market research, competitor analysis, and content drafting.', url: 'https://chatgpt.com/' },
+                    ]
+                },
+                workflow: [
+                    { title: 'Validate Your Idea', tag: 'Required', desc: 'Search Reddit, X, Product Hunt, and G2. Find posts saying "I wish this app could..." — those are real pain points.' },
+                    { title: 'Write Your PRD with AI', tag: 'Required', desc: 'Open Claude and say: "Help me write a PRD for [idea]." Include problem, users, must-have features, and success metrics.' },
+                    { title: 'Map the User Flow', tag: 'Required', desc: 'Write the path in plain English: User lands → signs up → does X → gets value. A numbered list is enough.' },
+                    { title: 'Wireframe in v0 or Figma', tag: 'Optional', desc: 'Paste your PRD into v0.dev: "Generate a wireframe for this app." A visual reference prevents constant rebuilding.' },
+                    { title: 'Build in Lovable or Bolt', tag: 'Required', desc: 'Paste your PRD in. Build ONE feature at a time. Start with the core value feature. Review before continuing.' },
+                    { title: 'Connect Services', tag: 'Required', desc: 'Connect Supabase (database), Clerk (auth), and Stripe (payments) through the platform UI. Do not code these manually.' },
+                    { title: 'Test Every Feature', tag: 'Required', desc: 'Click every button. Test empty inputs, errors, and mobile. Test what happens when things fail.' },
+                    { title: 'Export Code to GitHub', tag: 'Critical', desc: 'Do this BEFORE going live. Every major platform lets you export code. This prevents platform lock-in.' },
+                    { title: 'Get 5 Real Users', tag: 'Required', desc: 'Watch 5 real people use it without explaining anything. Note exactly where they get confused.' },
+                    { title: 'Fix, Iterate, Launch', tag: 'Required', desc: 'Fix the top 3 friction points. Then launch publicly. Resist adding features until you have active user feedback.' },
+                ],
+                docs: [
+                    { title: 'Product Requirements Document', badge: 'Required', bb: 'rgba(56,189,248,.1)', bc: 'var(--sky)', ib: 'rgba(56,189,248,.1)', ic: 'var(--sky)', items: ['Problem statement — what exactly are you solving?', 'Target user — who has this problem?', 'Must-have features (max 5)', 'Nice-to-have features (park for later)', 'Main user flow — steps from signup to value', 'Success metrics'], tip: 'Prompt Claude: "Help me write a detailed PRD for [idea]." Paste the result directly into Lovable or Bolt as your first build prompt.' },
+                    { title: 'User Flow Document', badge: 'Required', bb: 'rgba(56,189,248,.1)', bc: 'var(--sky)', ib: 'rgba(56,189,248,.1)', ic: 'var(--sky)', items: ['Happy path: Signup → first action → core value', 'What happens if auth fails?', 'Empty states — what does a new user see?', 'Error states — payment fails, upload fails', 'Offboarding / delete account flow'], tip: 'A numbered list in Notion or Google Docs is enough. No design tools needed.' },
+                    { title: 'README File', badge: 'Recommended', bb: 'var(--s3)', bc: 'var(--t3)', ib: 'var(--s3)', ic: 'var(--t3)', items: ['What the app does in 2 sentences', 'How to run it locally', 'Accounts and services needed', 'Environment variables'], tip: 'Ask your AI tool: "Write a README for this project — I am a non-technical founder." It generates one from your codebase.' },
+                ],
+                stack: {
+                    note: 'Lovable and Bolt manage your tech stack automatically. Here is what runs under the hood.', layers: [
+                        { l: 'Frontend', ts: ['React', 'Tailwind CSS'], n: 'Auto-generated' },
+                        { l: 'Database', ts: ['Supabase (PostgreSQL)'], n: 'One-click' },
+                        { l: 'Auth', ts: ['Clerk', 'Supabase Auth'], n: 'Built-in' },
+                        { l: 'Payments', ts: ['Stripe'], n: 'One-click' },
+                        { l: 'Hosting', ts: ['Netlify', 'Vercel'], n: 'Auto-deploy' },
+                        { l: 'Email', ts: ['Resend'], n: 'Simple setup' },
+                    ]
+                },
+                ceil: { pct: 55, label: 'MLP — Minimum Lovable Product', fill: 'linear-gradient(90deg,var(--sky),var(--vio))', desc: 'For simple to medium-complexity apps — landing pages, SaaS utilities, booking systems, dashboards — vibe coding on no-code platforms can ship a real deployed product. For complex apps you will hit the ceiling and need developer help.', can: ['Landing pages and marketing sites', 'Simple SaaS tools and utilities', 'Booking and scheduling systems', 'Internal dashboards and admin panels', 'Lead capture and CRM tools', 'Portfolio and showcase sites'], cant: ['Multi-tenant SaaS at scale', 'Real-time collaboration apps', 'Financial or regulated software', 'Complex billing logic', 'Custom API integrations', 'iOS / Android mobile apps'] }
+            },
+            b: {
+                pill: 'Path 02', name: 'The Builder', sub: 'Front-End or Back-End Developer',
+                color: 'var(--vio)', pStyle: 'border-color:var(--vio);color:var(--vio);background:rgba(129,140,248,.1)',
+                bb: 'rgba(129,140,248,.1)', bc: 'var(--vio)',
+                tc: 'var(--vio)', tb: 'rgba(129,140,248,.2)',
+                fill: 'linear-gradient(90deg,var(--vio),var(--a))',
+                tools: {
+                    'AI-Powered IDEs': [
+                        { logo: 'cursor.com', badge: 'Best Overall', name: 'Cursor', role: 'AI-native VS Code fork', desc: 'Indexes your entire codebase for context-aware suggestions. The professional developer standard for AI-assisted work.' },
+                        { logo: 'codeium.com', badge: 'Fast Agent', name: 'Windsurf', role: 'IDE with Cascade agent', desc: 'Strong multi-file edits and context awareness. A compelling alternative to Cursor.' },
+                        { logo: 'github.com', badge: 'Inline AI', name: 'GitHub Copilot', role: 'In-editor autocomplete', desc: 'Available in every IDE. Best for real-time suggestions and completing functions as you type.' },
+                    ],
+                    'UI Generation': [
+                        { logo: 'v0.dev', badge: 'UI First', name: 'v0', role: 'React component generator', desc: 'Generate production-quality React and Tailwind components from text. Plug directly into Next.js.', url: 'https://v0.app/ref/2XH5CR' },
+                        { logo: 'google.com', badge: 'Design', name: 'Google Stitch', role: 'AI design canvas', desc: 'Turn rough UI descriptions into working designs. Great for exploring layouts before building.' },
+                    ],
+                    'CLI Agents': [
+                        { logo: 'anthropic.com', badge: 'CLI Agent', name: 'Claude Code', role: 'Terminal coding agent', desc: 'For complex tasks: refactoring, database migrations, deep file edits. 93% benchmark success rate.' },
+                        { logo: 'google.com', badge: 'Alt CLI', name: 'Gemini CLI', role: 'Terminal AI assistant', desc: 'Free alternative for quick tasks. Strong for code explanation and refactoring suggestions.' },
+                    ],
+                    'Deployment': [
+                        { logo: 'vercel.com', badge: 'Frontend', name: 'Vercel', role: 'Deploy and edge functions', desc: 'One-command Next.js deployment. The standard hosting choice. Free tier is generous.' },
+                        { logo: 'supabase.com', badge: 'Backend', name: 'Supabase', role: 'DB and Auth and Storage', desc: 'Best one-stop backend for builders. Enable Row Level Security from day one.' },
+                        { logo: 'railway.app', badge: 'Compute', name: 'Railway', role: 'Backend deployment', desc: 'For Node.js and Python that needs persistent compute beyond serverless.' },
+                    ]
+                },
+                workflow: [
+                    { title: 'Market Research and Validation', tag: 'Required', desc: 'Find 5–10 real people complaining about this problem on Reddit, X, G2, Trustpilot. If you cannot find them, reshape your idea.' },
+                    { title: 'Write a Detailed PRD', tag: 'Required', desc: 'Cover problem, personas, must-have features, user flows, technical requirements (auth, DB, APIs), and success metrics. Use Claude to draft.' },
+                    { title: 'Technical Architecture Document', tag: 'Required', desc: 'Decide your stack before touching AI. Document frontend, backend, DB, auth, payments, storage, hosting.' },
+                    { title: 'Set Up Git and Project Structure', tag: 'Required', desc: 'Initialize repo, push to GitHub. Run create-next-app with TypeScript and Tailwind. Never start without version control.' },
+                    { title: 'Create Your Rules File', tag: 'Required', desc: 'Write .cursorrules or CLAUDE.md before any code. Define: TypeScript only, Tailwind only, reusable components, server actions, security rules.' },
+                    { title: 'Design System Setup', tag: 'Recommended', desc: 'Define colors, typography, and component styles. Use v0 to generate a component library. Tell AI: only use existing design system components.' },
+                    { title: 'Build Feature by Feature', tag: 'Required', desc: 'Never say "build the whole app." Instead: "Build auth with Clerk." Test it. Then: "Build the dashboard using existing auth."' },
+                    { title: 'Security Review Per Feature', tag: 'Required', desc: 'After each significant feature check: input validation, authorization, API exposure, and secret handling.' },
+                    { title: 'Integrate Services', tag: 'Required', desc: 'Connect Supabase (RLS on immediately), Clerk (middleware auth), Stripe (webhooks for entitlements), Resend (email).' },
+                    { title: 'Set Up CI/CD', tag: 'Recommended', desc: 'GitHub Actions on every push: typecheck, lint, smoke test. Eight lines of YAML. This catches broken code before production.' },
+                    { title: 'Test and Edge Cases', tag: 'Required', desc: 'Test happy path, empty states, invalid inputs, and mobile. Use Playwright for critical flows. Ask AI to write tests.' },
+                    { title: 'Deploy and Monitor', tag: 'Required', desc: 'Vercel for frontend, Railway for backend. Add Sentry immediately. Add PostHog. Get 5 beta users before adding new features.' },
+                ],
+                docs: [
+                    { title: 'PRD', badge: 'Required', bb: 'rgba(129,140,248,.1)', bc: 'var(--vio)', ib: 'rgba(129,140,248,.1)', ic: 'var(--vio)', items: ['Problem statement and why it matters', 'User personas (2–3 specific profiles)', 'Must-have features with acceptance criteria', 'Technical requirements (auth, DB, APIs, payments)', 'Non-functional requirements (performance, security)', 'Success metrics with targets'], tip: 'Go deeper than the Visionary PRD. Include technical requirements — your PRD feeds directly into your architecture document.' },
+                    { title: 'Technical Architecture Doc', badge: 'Required', bb: 'rgba(129,140,248,.1)', bc: 'var(--vio)', ib: 'rgba(129,140,248,.1)', ic: 'var(--vio)', items: ['Frontend: framework, UI library, styling', 'Backend: runtime, API pattern', 'Database: choice, schema, relations', 'Auth: provider, session management, protected routes', 'Payments: Stripe checkout to webhook to entitlement', 'Storage: file types, size limits, access control'], tip: 'Ask Claude: "Based on this PRD, write a technical architecture document using Next.js, Supabase, Clerk, and Stripe."' },
+                    { title: '.cursorrules / CLAUDE.md', badge: 'Required', bb: 'rgba(129,140,248,.1)', bc: 'var(--vio)', ib: 'rgba(129,140,248,.1)', ic: 'var(--vio)', items: ['TypeScript only, strict mode', 'Tailwind only, no inline styles', 'Reusable components, not one-offs', 'Server actions for mutations', 'Never hardcode secrets — validate all input', 'Exact folder layout defined'], tip: 'Keep under 50 lines. Write "Always..." not "Consider..." Stale rules cause conflicting code.' },
+                    { title: 'Design System Document', badge: 'Recommended', bb: 'var(--s3)', bc: 'var(--t3)', ib: 'var(--s3)', ic: 'var(--t3)', items: ['Color palette with hex values', 'Typography scale (headings, body, mono)', 'Component library (buttons, inputs, cards)', 'Spacing scale', 'Shadow and border-radius tokens'], tip: 'Generate in v0: "Create a design system for a SaaS using [brand]. Output as Tailwind config." Lock it in your rules file.' },
+                    { title: 'API Documentation', badge: 'Recommended', bb: 'var(--s3)', bc: 'var(--t3)', ib: 'var(--s3)', ic: 'var(--t3)', items: ['Endpoint list with HTTP methods', 'Request and response shapes', 'Auth requirements per endpoint', 'Error codes and meanings'], tip: 'Ask Cursor: "Document all API routes as a markdown table: endpoint, method, auth required, response shape."' },
+                ],
+                stack: {
+                    note: 'The community-validated stack for 2025–26. Every tool understands the others — AI scaffolds integrations reliably.', layers: [
+                        { l: 'Framework', ts: ['Next.js 15', 'TypeScript'], n: 'App Router' },
+                        { l: 'Styling', ts: ['Tailwind CSS v4', 'shadcn/ui'], n: 'Component lib' },
+                        { l: 'Database', ts: ['Supabase', 'Prisma ORM'], n: 'RLS enabled' },
+                        { l: 'Auth', ts: ['Clerk', 'Supabase Auth'], n: 'Middleware' },
+                        { l: 'Payments', ts: ['Stripe Checkout', 'Webhooks'], n: 'Entitlements' },
+                        { l: 'Email', ts: ['Resend'], n: 'Transactional' },
+                        { l: 'Hosting', ts: ['Vercel', 'Railway'], n: 'Frontend + backend' },
+                        { l: 'Monitoring', ts: ['Sentry', 'PostHog'], n: 'Errors + analytics' },
+                    ]
+                },
+                ceil: { pct: 75, label: 'Beta to Early Production', fill: 'linear-gradient(90deg,var(--vio),var(--a))', desc: 'Builders with frontend or backend experience can reach production-quality results with AI — especially owning their stronger side. Security and complex integrations need careful human review.', can: ['Full-stack SaaS MVPs', 'User-facing web applications', 'Admin panels and internal tools', 'Auth and payments flows', 'Simple API integrations', 'Content-heavy apps and blogs'], cant: ['Enterprise-scale multi-tenancy', 'Real-time at scale (WebSockets)', 'Complex billing and revenue logic', 'Regulated apps (HIPAA, fintech)', 'Deep backend architecture decisions', 'Performance-critical systems'] }
+            },
+            a: {
+                pill: 'Path 03', name: 'The Architect', sub: 'Full-Stack Developer',
+                color: 'var(--amb)', pStyle: 'border-color:var(--amb);color:var(--amb);background:rgba(251,191,36,.1)',
+                bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)',
+                tc: 'var(--amb)', tb: 'rgba(251,191,36,.2)',
+                fill: 'linear-gradient(90deg,var(--amb),var(--vio))',
+                tools: {
+                    'CLI and Terminal Agents': [
+                        { logo: 'anthropic.com', badge: 'Primary', name: 'Claude Code', role: 'Terminal AI engineer', desc: 'Autonomously reads, writes, and executes across your codebase. 93% benchmark success rate. Best for complex multi-file work at scale.' },
+                        { logo: 'google.com', badge: 'Alt Agent', name: 'Gemini CLI', role: 'Google terminal AI', desc: 'Supports 1M token context window. Strong for large-context tasks and deep project analysis.' },
+                        { logo: 'aider.chat', badge: 'Open Source', name: 'Aider', role: 'Git-aware coding agent', desc: 'Free and open-source. Works with any model. Understands git history for context-aware changes.' },
+                    ],
+                    'AI IDEs': [
+                        { logo: 'cursor.com', badge: 'Best IDE', name: 'Cursor', role: 'AI-native codebase editor', desc: 'Deep codebase indexing, multi-file agent, inline autocomplete. The professional developer standard.' },
+                        { logo: 'codeium.com', badge: 'AI IDE', name: 'Windsurf', role: 'IDE with Cascade agent', desc: 'Strong multi-file agent. Solid alternative to Cursor with different pricing.' },
+                        { logo: 'aws.amazon.com', badge: 'Spec-Driven', name: 'Kiro', role: 'SDD-native IDE', desc: 'Native Spec Driven Development support. Ideal for structured AI-generated code with traceability.' },
+                    ],
+                    'Spec and Planning': [
+                        { logo: '', badge: 'SDD', name: 'SpecKit', role: 'Spec-driven dev framework', desc: 'Manages specs, plans, and task tracking. Commits spec artifacts alongside code for full traceability.' },
+                        { logo: '', badge: 'Tasks', name: 'TaskMaster', role: 'AI task manager', desc: 'Breaks PRDs into actionable, sequenced tasks. Integrates with Cursor and Claude Code.' },
+                    ],
+                    'DevOps': [
+                        { logo: 'github.com', badge: 'CI/CD', name: 'GitHub Actions', role: 'Automated pipeline', desc: '8 lines of YAML: typecheck, lint, smoke test on every push. Required before launch.' },
+                        { logo: 'sentry.io', badge: 'Errors', name: 'Sentry', role: 'Real-time error tracking', desc: 'Catch production errors before users report them. Add source maps for stack traces.' },
+                        { logo: 'posthog.com', badge: 'Analytics', name: 'PostHog', role: 'Open-source product analytics', desc: 'Feature flags, session recording, funnels. Open-source and better than GA4 for products.' },
+                        { logo: 'fly.io', badge: 'Compute', name: 'Fly.io', role: 'Server deployment', desc: 'For compute-heavy backends and long-running workers Vercel serverless cannot handle.' },
+                    ]
+                },
+                workflow: [
+                    { title: 'Market Research', tag: 'Required', desc: 'Reddit, X, G2, Trustpilot, Hacker News. Find the exact complaint thread. Quantify: how many people, how often, what is the cost of the problem.' },
+                    { title: 'Comprehensive PRD', tag: 'Required', desc: 'Technical requirements, non-functional requirements (performance SLAs, security, scalability), API contracts, data model sketch, and edge cases.' },
+                    { title: 'Technical Architecture', tag: 'Required', desc: 'System design before any code. Data flow, API surface, service boundaries, database schema, auth token lifecycle, deployment topology.' },
+                    { title: 'Database Schema Design', tag: 'Required', desc: 'Design schema manually before Supabase setup. All tables, columns, types, relations, indexes, and RLS policies. AI implements; it does not design.' },
+                    { title: 'Project and Rules Files', tag: 'Required', desc: 'create-next-app with TS strict, Tailwind, ESLint. Write CLAUDE.md (under 200 lines), .cursorrules, AGENTS.md. Include security rules explicitly.' },
+                    { title: 'Skills and Context Files', tag: 'Required', desc: 'In .claude/skills/: create files for write-tests, security-review, api-design, database-migration. Produces consistent project-aware code.' },
+                    { title: 'API Spec (OpenAPI)', tag: 'Recommended', desc: 'Write or generate an OpenAPI 3.0 spec for all routes before building. Feed to Claude Code to generate type-safe route handlers.' },
+                    { title: 'Spec-Driven Task Breakdown', tag: 'Required', desc: 'Vertical slices: spec → plan → tasks → implementation → tests → review. Never build horizontal layers (all DB, then all API).' },
+                    { title: 'Iterative Build Sessions', tag: 'Required', desc: 'Each Claude Code session: start with CLAUDE.md and relevant files as context. One feature per session. Typecheck and lint via hooks.' },
+                    { title: 'Security Review Per Feature', tag: 'Critical', desc: 'Run security review with your security skill after every significant feature. Check auth enforcement, input sanitization, SQL injection, secrets.' },
+                    { title: 'CI/CD Setup', tag: 'Required', desc: 'GitHub Actions: build, lint, typecheck, tests, smoke test on every push. Security scanning on PRs. Production requires manual approval.' },
+                    { title: 'Observability Stack', tag: 'Required', desc: 'Sentry with source maps. PostHog for analytics. Logtail for structured logs. Set these up before you have users.' },
+                    { title: 'Load Testing', tag: 'Recommended', desc: 'Run k6 or Artillery against staging. Test DB performance under concurrent users. Check Lighthouse scores. Fix N+1 queries.' },
+                    { title: 'Documentation', tag: 'Required', desc: 'README, deployment guide, DB schema doc, API docs, project memory file, runbook for common incidents.' },
+                    { title: 'Deploy and Monitor', tag: 'Required', desc: 'Staged rollout. Monitor Sentry in first 24 hours. Check PostHog for anomalies. Have a rollback plan. Respond to feedback within 48 hours.' },
+                ],
+                docs: [
+                    { title: 'Comprehensive PRD', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['Problem statement and market size', 'User personas with Jobs To Be Done', 'Feature list with acceptance criteria', 'All technical requirements (every layer)', 'Non-functional: SLAs, security, compliance', 'Edge cases documented', 'Success metrics with targets'], tip: 'Your PRD feeds your architecture doc, task breakdown, and every AI session. The more specific, the better the output.' },
+                    { title: 'Technical Architecture Doc', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['System design overview with data flow', 'Service boundaries and responsibilities', 'Database schema: tables, relations, indexes', 'Auth: token lifecycle, protected routes, RLS', 'API surface: endpoints, methods, shapes', 'Deployment topology: services, environments'], tip: 'Write this before writing any code. Ask Claude to review for architectural holes — then anchor all future sessions to it.' },
+                    { title: 'CLAUDE.md and Context Files', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['CLAUDE.md: project context and rules (under 200 lines)', 'AGENTS.md: agent-specific behaviors', 'Use important tags for critical sections', 'Security rules: explicit OWASP requirements', 'Skills: write-tests, security-review, api-design', '.cursorrules: Cursor-specific rules'], tip: 'A 200-line CLAUDE.md gets ignored. Keep it focused. Add security requirements explicitly.' },
+                    { title: 'Database Schema Document', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['All tables with column names and types', 'Foreign key relationships', 'Indexes (especially compound indexes)', 'Row Level Security policies per table', 'Enum types and constraints', 'Migration order for dependencies'], tip: 'Design this manually — do not let AI design your schema. A bad schema causes painful migrations later.' },
+                    { title: 'Security Checklist', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['Auth enforcement on every protected route', 'Ownership verification before every write', 'Input validation on all user data', 'Parameterized SQL statements only', 'Secrets in env vars only', 'Rate limiting on all public endpoints'], tip: 'Run this with your Claude Code security skill after every major feature. 45% of AI code has OWASP Top 10 vulnerabilities.' },
+                    { title: 'Project Memory File', badge: 'Required', bb: 'rgba(251,191,36,.1)', bc: 'var(--amb)', ib: 'rgba(251,191,36,.1)', ic: 'var(--amb)', items: ['Product vision (1 paragraph)', 'Current feature set', 'Architecture decisions and reasons', 'What you chose NOT to do and why', 'Known bugs and status', 'Future roadmap'], tip: 'Feed this to Claude at the start of every session. Prevents AI from forgetting what you built across conversations.' },
+                    { title: 'Deployment Runbook', badge: 'Recommended', bb: 'var(--s3)', bc: 'var(--t3)', ib: 'var(--s3)', ic: 'var(--t3)', items: ['Step-by-step deploy commands', 'Environment variable list', 'How to roll back a bad deploy', 'Incident response steps', 'Database backup procedure', 'Monitoring dashboard links'], tip: 'Ask Claude: "Write a deployment runbook and incident guide for this stack." Customize it. Future-you will be grateful.' },
+                    { title: 'OpenAPI / API Spec', badge: 'Recommended', bb: 'var(--s3)', bc: 'var(--t3)', ib: 'var(--s3)', ic: 'var(--t3)', items: ['All endpoints with methods and paths', 'Request and response schemas', 'Auth requirements per endpoint', 'Error response shapes', 'Webhook event schemas'], tip: 'Generate from your architecture doc: "Write an OpenAPI 3.0 spec based on this architecture." Feed to Claude Code.' },
+                ],
+                stack: {
+                    note: 'The production-grade full-stack configuration for 2026. AI models understand every layer deeply.', layers: [
+                        { l: 'Framework', ts: ['Next.js 15', 'TypeScript (strict)'], n: 'App Router' },
+                        { l: 'Styling', ts: ['Tailwind CSS v4', 'shadcn/ui', 'Radix'], n: 'Accessible' },
+                        { l: 'Database', ts: ['Supabase', 'Prisma ORM'], n: 'RLS required' },
+                        { l: 'Auth', ts: ['Clerk', 'Auth.js v5'], n: 'Middleware' },
+                        { l: 'Payments', ts: ['Stripe Checkout', 'Webhooks'], n: 'Entitlements' },
+                        { l: 'Email', ts: ['Resend', 'React Email'], n: 'Typed' },
+                        { l: 'AI Layer', ts: ['Anthropic API', 'Vercel AI SDK'], n: 'Streaming' },
+                        { l: 'Hosting', ts: ['Vercel', 'Fly.io', 'Railway'], n: 'Multi-env' },
+                        { l: 'Errors', ts: ['Sentry'], n: 'Source maps' },
+                        { l: 'Analytics', ts: ['PostHog'], n: 'Open source' },
+                        { l: 'Logs', ts: ['Logtail', 'Axiom'], n: 'Structured' },
+                        { l: 'CI/CD', ts: ['GitHub Actions'], n: 'Build → test → ship' },
+                    ]
+                },
+                ceil: { pct: 88, label: 'Production-Ready (With Governance)', fill: 'linear-gradient(90deg,var(--amb),var(--vio))', desc: 'Full-stack developers using Spec-Driven Development, context files, and security skills can reach genuinely production-ready results. The ceiling is now system design quality, which still requires human architectural judgment.', can: ['Complex SaaS products', 'Multi-tenant applications', 'Real-time features with oversight', 'Payment and subscription systems', 'Custom API integrations', 'AI-powered features'], cant: ['Automated architecture decisions', 'Enterprise compliance without expertise', 'Novel algorithm development', 'Performance-critical system design', 'Regulated code without human review', 'Org-level DevOps decisions'] }
+            }
+        };
+
+        /* ── STATE ─────────────────────────────────────────────── */
+        var AP = null, AT = 'tools';
+
+        /* ── PICK PATH ─────────────────────────────────────────── */
+        function pick(k) {
+            AP = k;
+            var d = D[k];
+            // cards
+            document.querySelectorAll('.pcard').forEach(function (c) {
+                c.removeAttribute('data-on');
+                c.setAttribute('aria-pressed', 'false');
+            });
+            var card = document.querySelector('.pcard[data-path="' + k + '"]');
+            card.setAttribute('data-on', '');
+            card.setAttribute('aria-pressed', 'true');
+            // header
+            var pill = document.getElementById('pc-pill');
+            pill.textContent = d.pill;
+            pill.style.cssText = d.pStyle + ';padding:4px 12px;border-radius:99px;border:1px solid;font-family:"JetBrains Mono",monospace;font-size:.6875rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;';
+            document.getElementById('pc-name').textContent = d.name;
+            document.getElementById('pc-sub').textContent = d.sub;
+            // show content
+            var pc = document.getElementById('pc');
+            pc.classList.add('on');
+            // reset tabs
+            AT = 'tools';
+            document.querySelectorAll('.tab').forEach(function (t) {
+                var s = t.dataset.t === 'tools';
+                t.classList.toggle('on', s);
+                t.setAttribute('aria-selected', s ? 'true' : 'false');
+            });
+            draw('tools');
+            setTimeout(function () { pc.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+        }
+
+        /* ── SWITCH TAB ────────────────────────────────────────── */
+        function go(t) {
+            AT = t;
+            document.querySelectorAll('.tab').forEach(function (b) {
+                var s = b.dataset.t === t;
+                b.classList.toggle('on', s);
+                b.setAttribute('aria-selected', s ? 'true' : 'false');
+            });
+            draw(t);
+        }
+
+        /* ── RENDER ────────────────────────────────────────────── */
+        function draw(t) {
+            var d = D[AP];
+            var out = document.getElementById('panel');
+            var h = '';
+            if (t === 'tools') h = rTools(d);
+            if (t === 'workflow') h = rWorkflow(d);
+            if (t === 'docs') h = rDocs(d);
+            if (t === 'stack') h = rStack(d);
+            if (t === 'ceil') h = rCeil(d);
+            out.innerHTML = h;
+            // force animation replay
+            out.style.animation = 'none';
+            out.offsetHeight;
+            out.style.animation = '';
+
+            if (t === 'workflow') {
+                out.querySelectorAll('.wf-item').forEach(function (el, i) {
+                    setTimeout(function () { el.classList.add('in'); }, i * 50);
+                });
+            }
+            if (t === 'docs') {
+                out.querySelectorAll('.doc-btn').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var card = btn.closest('.doc-card');
+                        var isOpen = card.hasAttribute('data-open');
+                        card.toggleAttribute('data-open', !isOpen);
+                        btn.setAttribute('aria-expanded', (!isOpen).toString());
+                    });
+                });
+            }
+            if (t === 'ceil') {
+                var fill = out.querySelector('.ceil-fill');
+                if (fill) requestAnimationFrame(function () { setTimeout(function () { fill.style.width = d.ceil.pct + '%'; }, 60); });
+            }
+        }
+
+        /* ── RENDER TOOLS ──────────────────────────────────────── */
+        function rTools(d) {
+            var h = '<div class="ph"><h3>Your AI Toolkit</h3><p>Right tools for your level. You do not need all of them.</p></div>';
+            Object.entries(d.tools).forEach(function (e) {
+                var cat = e[0], tools = e[1];
+                h += '<div class="cat">' + cat + '</div><div class="tool-grid">';
+                tools.forEach(function (t) {
+                    var imgH = t.logo
+                        ? '<img src="https://img.logo.dev/' + t.logo + '?token=live_6a1a28fd-6420-4492-aeb0-b297461d9de2&format=png&theme=dark&size=44" alt="' + t.name + ' logo" width="22" height="22" loading="lazy" onerror="this.closest(\'.tool-logo\').style.display=\'none\'">'
+                        : '';
+                    var tag = t.url ? 'a' : 'article';
+                    var attrs = t.url ? ' href="' + t.url + '" target="_blank" rel="noopener noreferrer"' : '';
+                    var cls = 'tool-card' + (t.url ? ' tool-card--link' : '');
+                    h += '<' + tag + attrs + ' class="' + cls + '" aria-label="' + t.name + ' — ' + t.role + '">'
+                        + '<div class="tool-logo">' + imgH + '</div>'
+                        + '<span class="tool-badge" style="background:' + d.bb + ';color:' + d.bc + '">' + t.badge + '</span>'
+                        + '<div class="tool-name">' + t.name + '</div>'
+                        + '<div class="tool-role">' + t.role + '</div>'
+                        + '<div class="tool-desc">' + t.desc + '</div>'
+                        + '</' + tag + '>';
+                });
+                h += '</div>';
+            });
+            return h;
+        }
+
+        /* ── RENDER WORKFLOW ───────────────────────────────────── */
+        function rWorkflow(d) {
+            var h = '<div class="ph"><h3>Your Build Workflow</h3><p>Follow this sequence. Skipping steps is how you end up rebuilding from scratch.</p></div>';
+            d.workflow.forEach(function (s, i) {
+                var tc = s.tag === 'Required' ? 'tq' : s.tag === 'Critical' ? 'tc' : s.tag === 'Recommended' ? 'tr' : 'to';
+                h += '<div class="wf-item">'
+                    + '<div class="wf-n">' + String(i + 1).padStart(2, '0') + '</div>'
+                    + '<div class="wf-body">'
+                    + '<div class="wf-row"><span class="wf-title">' + s.title + '</span><span class="wf-tag ' + tc + '">' + s.tag + '</span></div>'
+                    + '<p class="wf-desc">' + s.desc + '</p>'
+                    + '</div></div>';
+            });
+            return h;
+        }
+
+        /* ── RENDER DOCS ───────────────────────────────────────── */
+        function rDocs(d) {
+            var h = '<div class="ph"><h3>Documents to Create</h3><p>Context that makes AI produce consistent, production-quality code.</p></div><div class="docs-grid">';
+            d.docs.forEach(function (doc, i) {
+                var id = 'db' + i;
+                h += '<div class="doc-card">'
+                    + '<button class="doc-btn" aria-expanded="false" aria-controls="' + id + '">'
+                    + '<div class="doc-icon" style="background:' + doc.ib + ';color:' + doc.ic + '">'
+                    + '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+                    + '</div>'
+                    + '<div class="doc-info">'
+                    + '<div class="doc-title">' + doc.title + '</div>'
+                    + '<span class="doc-badge" style="background:' + doc.bb + ';color:' + doc.bc + '">' + doc.badge + '</span>'
+                    + '</div>'
+                    + '<svg class="doc-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>'
+                    + '</button>'
+                    + '<div class="doc-body" id="' + id + '">'
+                    + '<div><div class="doc-body-inner">'
+                    + '<ul class="doc-items">' + doc.items.map(function (item) { return '<li>' + item + '</li>'; }).join('') + '</ul>'
+                    + '<div class="doc-tip"><p><strong>Tip:</strong> ' + doc.tip + '</p></div>'
+                    + '</div></div></div>'
+                    + '</div>';
+            });
+            h += '</div>';
+            return h;
+        }
+
+        /* ── RENDER STACK ──────────────────────────────────────── */
+        function rStack(d) {
+            var s = d.stack;
+            var h = '<div class="ph"><h3>Recommended Tech Stack</h3><p>AI models understand these tools deeply. The community-validated configuration for 2025–26.</p></div>'
+                + '<div class="stack-note">' + s.note + '</div>'
+                + '<div class="stack-rows">';
+            s.layers.forEach(function (row) {
+                h += '<div class="stack-row">'
+                    + '<span class="stack-lbl">' + row.l + '</span>'
+                    + '<div class="stack-techs">' + row.ts.map(function (t) { return '<span class="stack-tech" style="color:' + d.tc + ';border-color:' + d.tb + ';background:' + d.bb + '">' + t + '</span>'; }).join('') + '</div>'
+                    + '<span class="stack-nn">' + row.n + '</span>'
+                    + '</div>';
+            });
+            h += '</div>';
+            return h;
+        }
+
+        /* ── RENDER CEILING ────────────────────────────────────── */
+        function rCeil(d) {
+            var c = d.ceil;
+            return '<div class="ph"><h3>What AI Can Get You To</h3><p>The honest ceiling — based on your path and whether you follow the foundations.</p></div>'
+                + '<div class="ceil-card">'
+                + '<div class="ceil-hdr"><span class="ceil-title">' + c.label + '</span><span class="ceil-pct">' + c.pct + '% production-ready</span></div>'
+                + '<div class="ceil-track"><div class="ceil-fill" style="background:' + c.fill + '"></div></div>'
+                + '<p class="ceil-desc">' + c.desc + '</p>'
+                + '<div class="ceil-cols">'
+                + '<div class="ceil-col c-ok"><h4><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>AI Can Deliver</h4><ul>' + c.can.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>'
+                + '<div class="ceil-col c-no"><h4><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Still Needs Human Judgment</h4><ul>' + c.cant.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>'
+                + '</div></div>';
+        }
+
+        /* ── INTERSECTION OBSERVER ─────────────────────────────── */
+        var io = new IntersectionObserver(function (es) {
+            es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: .08 });
+        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+        document.querySelectorAll('.ucard').forEach(function (el, i) {
+            el.style.transition = 'border-color .15s, background .15s, opacity .4s ' + (i * .06) + 's ease, transform .4s ' + (i * .06) + 's ease';
+            io.observe(el);
+        });
+    </script>
+    <script>
+        // Volumetric beam — floating dust particles
+        (function () {
+            var c = document.getElementById('vlP');
+            if (!c) return;
+            var ctx = c.getContext('2d');
+            var pts = [];
+            var W, H;
+
+            function resize() {
+                W = c.offsetWidth; H = c.offsetHeight;
+                c.width = W; c.height = H;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            var CONE_HW = 0.17; // half-width of cone at its base as fraction of W
+            var BEAM_H = 0.76; // cone stops at this fraction of H
+
+            function spawn(init) {
+                var y = init ? Math.random() * H * BEAM_H : H * BEAM_H;
+                var hw = (y / (H * BEAM_H)) * W * CONE_HW;
+                pts.push({
+                    x: W / 2 + (Math.random() * 2 - 1) * hw,
+                    y: y,
+                    r: Math.random() * 1.3 + 0.2,
+                    spd: Math.random() * 0.22 + 0.07,
+                    drift: (Math.random() - 0.5) * 0.07,
+                    alpha: Math.random() * 0.55 + 0.10,
+                    ph: Math.random() * Math.PI * 2,
+                });
+            }
+
+            for (var i = 0; i < 75; i++) spawn(true);
+
+            function tick() {
+                ctx.clearRect(0, 0, W, H);
+                for (var i = pts.length - 1; i >= 0; i--) {
+                    var p = pts[i];
+                    p.ph += 0.011;
+                    p.y -= p.spd;
+                    p.x += p.drift + Math.sin(p.ph) * 0.10;
+
+                    var topFade = Math.min(1, p.y / (H * 0.10));
+                    var hw = Math.max(1, (p.y / (H * BEAM_H)) * W * CONE_HW);
+                    var edgeFade = Math.max(0, 1 - Math.abs(p.x - W / 2) / hw);
+                    var a = p.alpha * topFade * edgeFade;
+
+                    if (a > 0.005) {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(215,200,255,' + a.toFixed(3) + ')';
+                        ctx.fill();
+                    }
+
+                    if (p.y < -4) { pts.splice(i, 1); spawn(false); }
+                }
+                requestAnimationFrame(tick);
+            }
+            tick();
+        })();
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+
+</html>
