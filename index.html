@@ -579,6 +579,14 @@
         }
 
         /* ── VOLUMETRIC LIGHT BEAM ────────────────────────── */
+        /*
+         * conic-gradient from 50% 0% = a real point-source cone.
+         * It physically spreads as it travels down — narrow above,
+         * wide at the text. Each layer is wider (more degrees) than
+         * the next inner layer. Heavy blur removes angular banding.
+         * All elements sit 120px above the fold so the origin is
+         * off-screen and the beam "enters" rather than starting mid-page.
+         */
         .vl-wrap {
             position: absolute;
             inset: 0;
@@ -586,147 +594,125 @@
             overflow: hidden;
         }
 
-        /* Outer atmospheric haze — wide scatter */
+        /* L1 — wide atmospheric haze (~44° cone) */
         .vl-haze {
             position: absolute;
-            top: 0;
+            top: -120px;
             left: 50%;
-            width: 820px;
+            transform: translateX(-50%);
+            width: 1500px;
             height: 92vh;
-            margin-left: -410px;
-            clip-path: polygon(50% 0%, 3% 100%, 97% 100%);
-            background: linear-gradient(180deg,
-                    rgba(130, 108, 255, .16) 0%,
-                    rgba(110, 88, 245, .08) 38%,
-                    rgba(90, 70, 225, .03) 68%,
-                    transparent 100%);
-            filter: blur(44px);
-            animation: vl-pulse 10s ease-in-out infinite;
+            background: conic-gradient(
+                from 0deg at 50% 0%,
+                transparent       0deg,
+                transparent     148deg,
+                rgba(96,  76, 238, .07) 163deg,
+                rgba(118, 98, 252, .11) 180deg,
+                rgba(96,  76, 238, .07) 197deg,
+                transparent     212deg,
+                transparent     360deg
+            );
+            filter: blur(72px);
+            animation: vl-breathe 10s ease-in-out infinite;
         }
 
-        /* Main shaft — the visible light column */
+        /* L2 — main shaft (~28° cone) */
         .vl-shaft {
             position: absolute;
-            top: 0;
+            top: -120px;
             left: 50%;
-            width: 300px;
-            height: 84vh;
-            margin-left: -150px;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            background: linear-gradient(180deg,
-                    rgba(205, 183, 255, .32) 0%,
-                    rgba(165, 140, 255, .16) 28%,
-                    rgba(124, 106, 248, .08) 60%,
-                    transparent 100%);
-            filter: blur(16px);
-            animation: vl-pulse 10s ease-in-out infinite .9s;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 86vh;
+            background: conic-gradient(
+                from 0deg at 50% 0%,
+                transparent       0deg,
+                transparent     156deg,
+                rgba(138, 114, 255, .13) 170deg,
+                rgba(162, 138, 255, .20) 180deg,
+                rgba(138, 114, 255, .13) 190deg,
+                transparent     204deg,
+                transparent     360deg
+            );
+            filter: blur(42px);
+            animation: vl-breathe 10s ease-in-out infinite .7s;
         }
 
-        /* Inner shaft — brighter tighter cone */
+        /* L3 — inner glow (~18° cone) */
         .vl-inner {
             position: absolute;
-            top: 0;
+            top: -120px;
             left: 50%;
-            width: 96px;
-            height: 74vh;
-            margin-left: -48px;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            background: linear-gradient(180deg,
-                    rgba(245, 232, 255, .80) 0%,
-                    rgba(208, 185, 255, .42) 18%,
-                    rgba(165, 140, 255, .20) 50%,
-                    rgba(130, 108, 255, .06) 78%,
-                    transparent 100%);
-            filter: blur(5px);
-            animation: vl-pulse 10s ease-in-out infinite 1.6s;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 78vh;
+            background: conic-gradient(
+                from 0deg at 50% 0%,
+                transparent       0deg,
+                transparent     162deg,
+                rgba(192, 170, 255, .20) 173deg,
+                rgba(215, 195, 255, .28) 180deg,
+                rgba(192, 170, 255, .20) 187deg,
+                transparent     198deg,
+                transparent     360deg
+            );
+            filter: blur(20px);
+            animation: vl-breathe 10s ease-in-out infinite 1.3s;
         }
 
-        /* Hot core — near-white at source point */
+        /* L4 — hot core (~8° cone, very bright) */
         .vl-core {
             position: absolute;
-            top: 0;
+            top: -120px;
             left: 50%;
-            width: 22px;
-            height: 50vh;
-            margin-left: -11px;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-            background: linear-gradient(180deg,
-                    rgba(255, 254, 255, 1) 0%,
-                    rgba(238, 222, 255, .90) 10%,
-                    rgba(200, 175, 255, .55) 38%,
-                    rgba(155, 132, 255, .18) 68%,
-                    transparent 100%);
-            filter: blur(1.2px);
-            animation: vl-core-pulse 10s ease-in-out infinite .5s;
+            transform: translateX(-50%);
+            width: 650px;
+            height: 64vh;
+            background: conic-gradient(
+                from 0deg at 50% 0%,
+                transparent       0deg,
+                transparent     166deg,
+                rgba(228, 210, 255, .32) 177deg,
+                rgba(250, 240, 255, .45) 180deg,
+                rgba(228, 210, 255, .32) 183deg,
+                transparent     194deg,
+                transparent     360deg
+            );
+            filter: blur(8px);
+            animation: vl-core-breathe 10s ease-in-out infinite .3s;
         }
 
-        /* Fresnel edge — bright left boundary */
-        .vl-edge-l {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 1.5px;
-            height: 78vh;
-            transform-origin: top center;
-            transform: translateX(-50%) rotate(-20deg);
-            background: linear-gradient(180deg,
-                    rgba(248, 238, 255, .95) 0%,
-                    rgba(200, 175, 255, .50) 28%,
-                    rgba(148, 126, 255, .14) 62%,
-                    transparent 100%);
-            filter: blur(.8px);
-            animation: vl-edge 10s ease-in-out infinite .3s;
-        }
-
-        /* Fresnel edge — bright right boundary */
-        .vl-edge-r {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 1.5px;
-            height: 78vh;
-            transform-origin: top center;
-            transform: translateX(-50%) rotate(20deg);
-            background: linear-gradient(180deg,
-                    rgba(248, 238, 255, .95) 0%,
-                    rgba(200, 175, 255, .50) 28%,
-                    rgba(148, 126, 255, .14) 62%,
-                    transparent 100%);
-            filter: blur(.8px);
-            animation: vl-edge 10s ease-in-out infinite 1.1s;
-        }
-
-        /* Source burst — hot glow at origin */
+        /* Source corona — the bright origin point off-screen above */
         .vl-source {
             position: absolute;
-            top: -28px;
+            top: -120px;
             left: 50%;
             transform: translateX(-50%);
-            width: 180px;
-            height: 90px;
-            background: radial-gradient(ellipse 55% 80% at 50% 5%,
-                    rgba(255, 253, 255, .90) 0%,
-                    rgba(220, 200, 255, .60) 25%,
-                    rgba(165, 142, 255, .22) 55%,
-                    transparent 82%);
-            filter: blur(9px);
-            animation: vl-source 5s ease-in-out infinite;
+            width: 320px;
+            height: 220px;
+            background: radial-gradient(ellipse 50% 55% at 50% 25%,
+                    rgba(255, 255, 255, .45) 0%,
+                    rgba(218, 196, 255, .24) 24%,
+                    rgba(165, 140, 255, .08) 54%,
+                    transparent 74%);
+            filter: blur(18px);
+            animation: vl-source-pulse 10s ease-in-out infinite;
         }
 
-        /* Floor pool — diffuse spread at beam terminus */
+        /* Spread pool — wide soft glow that blooms at the text level */
         .vl-pool {
             position: absolute;
-            top: 74vh;
+            top: 44vh;
             left: 50%;
             transform: translateX(-50%);
-            width: 500px;
-            height: 130px;
-            background: radial-gradient(ellipse 50% 50% at 50% 50%,
-                    rgba(124, 106, 248, .16) 0%,
-                    rgba(100, 82, 235, .07) 48%,
-                    transparent 72%);
-            filter: blur(26px);
-            animation: vl-pulse 10s ease-in-out infinite 3.5s;
+            width: 700px;
+            height: 180px;
+            background: radial-gradient(ellipse 65% 55% at 50% 50%,
+                    rgba(124, 106, 248, .07) 0%,
+                    rgba(100, 82, 240, .02) 55%,
+                    transparent 75%);
+            filter: blur(30px);
+            animation: vl-breathe 10s ease-in-out infinite 5s;
         }
 
         /* Canvas for floating dust particles */
@@ -737,56 +723,24 @@
             height: 100%;
         }
 
-        @keyframes vl-pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: .52;
-            }
+        .vl-edge-l,
+        .vl-edge-r {
+            display: none;
         }
 
-        @keyframes vl-core-pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                filter: blur(1.2px);
-            }
-
-            50% {
-                opacity: .70;
-                filter: blur(2.8px);
-            }
+        @keyframes vl-breathe {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: .70; }
         }
 
-        @keyframes vl-edge {
-
-            0%,
-            100% {
-                opacity: .88;
-            }
-
-            50% {
-                opacity: .32;
-            }
+        @keyframes vl-core-breathe {
+            0%, 100% { opacity: 1;   filter: blur(8px); }
+            50%       { opacity: .78; filter: blur(11px); }
         }
 
-        @keyframes vl-source {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: translateX(-50%) scaleX(1);
-            }
-
-            50% {
-                opacity: .60;
-                transform: translateX(-50%) scaleX(.82);
-            }
+        @keyframes vl-source-pulse {
+            0%, 100% { opacity: 1;   transform: translateX(-50%) scale(1); }
+            50%       { opacity: .62; transform: translateX(-50%) scale(.86); }
         }
 
         /* Dot grid fades out toward edges */
@@ -3461,7 +3415,10 @@
             tick();
         })();
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
 </body>
 
 </html>
